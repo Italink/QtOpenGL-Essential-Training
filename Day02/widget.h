@@ -20,6 +20,8 @@ protected:
     virtual void resizeGL(int w, int h) override;
 private:
     QOpenGLShaderProgram shaderProgram;
-
+    QOpenGLVertexArrayObject VAO;
+    QOpenGLBuffer VBO;
+    QOpenGLBuffer EBO;
 };
 #endif // WIDGET_H

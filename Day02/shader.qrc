@@ -2,6 +2,5 @@
     <qresource prefix="/">
         <file>gl.vert</file>
         <file>gl.frag</file>
-        <file>s.vsh</file>
     </qresource>
 </RCC>

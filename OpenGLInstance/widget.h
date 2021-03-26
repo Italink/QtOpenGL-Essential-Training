@@ -3,11 +3,11 @@
 
 #include <QOpenGLWidget>
 #include <QOpenGLExtraFunctions>
-#include <QOpenGLShaderProgram>
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLBuffer>
+#include <QOpenGLShaderProgram>
 
-class Widget : public QOpenGLWidget , protected QOpenGLExtraFunctions
+class Widget : public QOpenGLWidget,protected QOpenGLExtraFunctions
 {
     Q_OBJECT
 
@@ -19,7 +19,9 @@ protected:
     virtual void paintGL() override;
     virtual void resizeGL(int w, int h) override;
 private:
+    QOpenGLVertexArrayObject VAO;
+    QOpenGLBuffer VBO;
     QOpenGLShaderProgram shaderProgram;
-
+    QOpenGLBuffer instanceVBO;
 };
 #endif // WIDGET_H
