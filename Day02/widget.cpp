@@ -24,6 +24,7 @@ void Widget::initializeGL()
     EBO.create();
     EBO.bind();
     uint elements[]={0,1,3};
+
     EBO.allocate(elements,sizeof(elements));
     float vertices[]={
          0.5f,  0.5f, 0.0f,  // 右上角
@@ -32,12 +33,13 @@ void Widget::initializeGL()
         -0.5f, -0.5f, 0.0f, // 左下角
     };
     VBO.allocate(vertices,sizeof (vertices));
+
     shaderProgram.create();
     shaderProgram.addShaderFromSourceFile(QOpenGLShader::Vertex,":/gl.vert");
     shaderProgram.addShaderFromSourceFile(QOpenGLShader::Fragment,":/gl.frag");
     shaderProgram.link();
     shaderProgram.enableAttributeArray(0);
-    shaderProgram.setAttributeBuffer(0,GL_FLOAT,0,3);
+    shaderProgram.setAttributeBuffer(0,GL_FLOAT,0,3);       //将VBO和EBO的id，以及解析格式存储到VAO中
     VAO.release();
     VBO.release();
     EBO.release();

@@ -39,26 +39,45 @@ void Widget::initializeGL()
     shaderProgram.setAttributeBuffer(0,GL_FLOAT,0,2,5*sizeof (float));
     shaderProgram.setAttributeBuffer(1,GL_FLOAT,2*sizeof (float),3,5*sizeof (float));
 
-    shaderProgram.enableAttributeArray(2);
-    QVector2D translations[100];
-    int index = 0;
+
+
     float offset = 0.1f;
+    QVector<QVector4D> vec;
     for(int y = -10; y < 10; y += 2)
     {
         for(int x = -10; x < 10; x += 2)
         {
-            QVector2D translation;
-            translation.setX( (float)x / 10.0f + offset);
-            translation.setY( (float)y / 10.0f + offset);
-            translations[index++] = translation;
+            QMatrix4x4 mat;
+            mat.translate(x/ 10.0f + offset,y / 10.0f + offset);
+            mat.rotate((x+y)*10,QVector3D(0,0,1));
+            vec.push_back(mat.column(0));
+            vec.push_back(mat.column(1));
+            vec.push_back(mat.column(2));
+            vec.push_back(mat.column(3));
         }
     }
+
     instanceVBO.create();
     instanceVBO.bind();
-    instanceVBO.allocate(translations,100*sizeof (QVector2D));
-    shaderProgram.setAttributeBuffer(2,GL_FLOAT,0,2,2*sizeof (float));
-    instanceVBO.release();
+    instanceVBO.allocate(vec.data(),vec.size()*sizeof (QVector4D));
+    shaderProgram.enableAttributeArray(2);
+    shaderProgram.setAttributeBuffer(2,GL_FLOAT,0,4,4*sizeof (QVector4D));
     glVertexAttribDivisor(2,1);
+
+    shaderProgram.enableAttributeArray(3);
+    shaderProgram.setAttributeBuffer(3,GL_FLOAT,1*sizeof (QVector4D),4,4*sizeof (QVector4D));
+    glVertexAttribDivisor(3,1);
+
+    shaderProgram.enableAttributeArray(4);
+    shaderProgram.setAttributeBuffer(4,GL_FLOAT,2*sizeof (QVector4D),4,4*sizeof (QVector4D));
+    glVertexAttribDivisor(4,1);
+
+    shaderProgram.enableAttributeArray(5);
+    shaderProgram.setAttributeBuffer(5,GL_FLOAT,3*sizeof (QVector4D),4,4*sizeof (QVector4D));
+    glVertexAttribDivisor(5,1);
+
+    instanceVBO.release();
+
 
 }
 
