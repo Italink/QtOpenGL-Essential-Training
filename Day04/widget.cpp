@@ -66,11 +66,12 @@ void Widget::paintGL()
     shaderProgram.bind();
     texture.bind(0);                                    //将纹理对象绑定到0号纹理单元
     shaderProgram.setUniformValue("texture",0);         //设置采样器[sample texture]从0号纹理单元获取数据
-    double sec=QTime::currentTime().msecsSinceStartOfDay()/1000.0;      //获取当前时间的毫秒数，除以1000.0得到精度为0.001的秒数。
-    float uniformFloat = qAbs(qSin(sec));
-    shaderProgram.setUniformValue("uniformFloat",uniformFloat);
-    QOpenGLVertexArrayObject::Binder bind(&VAO);        //构造时调用VAO.bind()，析构时调用VAO.release()
 
+    double sec=QTime::currentTime().msecsSinceStartOfDay()/1000.0;      //获取当前时间的毫秒数，除以1000.0得到精度为0.001的秒数。
+    float mValue = qAbs(qSin(sec));                                     //setUniformValue并没有以double为参数的封装，因此需要使用float
+    shaderProgram.setUniformValue("mValue",mValue);                     //设置uniform中【mValue】的值
+
+    QOpenGLVertexArrayObject::Binder bind(&VAO);        //构造时调用VAO.bind()，析构时调用VAO.release()
     glDrawElements(GL_TRIANGLE_STRIP,4,GL_UNSIGNED_INT,nullptr);
 }
 

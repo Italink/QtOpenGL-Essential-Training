@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>wave.vert</file>
+        <file>wave.frag</file>
+        <file>render.vert</file>
+        <file>render.frag</file>
+        <file>background.jpg</file>
+    </qresource>
+</RCC>
