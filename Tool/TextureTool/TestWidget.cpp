@@ -14,7 +14,7 @@ Widget::~Widget()
 void Widget::initializeGL()
 {
     initializeOpenGLFunctions();
-    TextureTool::getTool()->init(this);
+    TextureTool::setup(this);
     texture.create();
     texture.setData(QImage(":image.png").mirrored());
 }
@@ -27,7 +27,7 @@ void Widget::resizeGL(int w, int h)
 void Widget::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT);
-    TextureTool::getTool()->draw(texture.textureId(),QRectF(-1,-1,1,1),90);
-    TextureTool::getTool()->draw(QImage(":image.png"),QRectF(0,0,1,1),0);
+    TextureTool::draw(texture.textureId(),QRectF(-1,-1,1,1),90);
+    TextureTool::draw(QImage(":image.png"),QRectF(0,0,1,1),0);
 }
 

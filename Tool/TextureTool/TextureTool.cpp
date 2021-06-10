@@ -55,9 +55,9 @@ void TextureTool::init(QOpenGLWidget *glWidget)
     VBO.release();
 }
 
-void TextureTool::draw(GLuint textureId, QRectF geomtry, float rotation)
+void TextureTool::drawTexture(GLuint textureId, QRectF geomtry, float rotation)
 {
-    Q_ASSERT(getTool()->glWidget!=nullptr);
+    Q_ASSERT(glWidget!=nullptr);
     QOpenGLVertexArrayObject::Binder bind(&VAO);
     program.bind();
     QMatrix4x4 model;
@@ -69,6 +69,16 @@ void TextureTool::draw(GLuint textureId, QRectF geomtry, float rotation)
     glBindTexture(GL_TEXTURE_2D,textureId);
     glDrawArrays(GL_TRIANGLE_STRIP,0,4);
     program.release();
+}
+
+void TextureTool::setup(QOpenGLWidget *widget)
+{
+    getTool()->init(widget);
+}
+
+void TextureTool::draw(GLuint textureId, QRectF geomtry, float rotation)
+{
+    getTool()->drawTexture(textureId,geomtry,rotation);
 }
 
 void TextureTool::draw(QImage image, QRectF geomtry, float rotation)

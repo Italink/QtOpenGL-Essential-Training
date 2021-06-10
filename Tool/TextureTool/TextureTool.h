@@ -11,11 +11,13 @@ class TextureTool : protected QOpenGLExtraFunctions
 {
 private:
     TextureTool();
-public:
     static TextureTool* getTool();
     void init(QOpenGLWidget* glWidget);
-    void draw(GLuint textureId, QRectF geomtry=QRectF(-1,-1,2,2), float rotation=0);
-    void draw(QImage image, QRectF geomtry=QRectF(-1,-1,2,2), float rotation=0);
+    void drawTexture(GLuint textureId, QRectF geomtry=QRectF(-1,-1,2,2), float rotation=0);
+public:
+    static void setup(QOpenGLWidget* widget);
+    static void draw(GLuint textureId, QRectF geomtry=QRectF(-1,-1,2,2), float rotation=0);
+    static void draw(QImage image, QRectF geomtry=QRectF(-1,-1,2,2), float rotation=0);
 private:
     QOpenGLWidget* glWidget;
     QOpenGLVertexArrayObject VAO;
