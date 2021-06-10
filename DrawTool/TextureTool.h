@@ -1,10 +1,10 @@
 #ifndef TEXTURETOOL_H
 #define TEXTURETOOL_H
 
-#include<QOpenGLWidget>
-#include<QOpenGLExtraFunctions>
-#include<QOpenGLVertexArrayObject>
-#include<QOpenGLShaderProgram>
+#include <QOpenGLWidget>
+#include <QOpenGLExtraFunctions>
+#include <QOpenGLVertexArrayObject>
+#include <QOpenGLShaderProgram>
 #include <QOpenGLBuffer>
 
 class TextureTool : protected QOpenGLExtraFunctions

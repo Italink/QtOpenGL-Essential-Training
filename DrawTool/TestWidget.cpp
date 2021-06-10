@@ -1,5 +1,6 @@
 #include "TextureTool.h"
 #include "TestWidget.h"
+#include "TextTool.h"
 
 Widget::Widget(QWidget *parent)
     : QOpenGLWidget(parent)
@@ -29,5 +30,5 @@ void Widget::paintGL()
     glClear(GL_COLOR_BUFFER_BIT);
     TextureTool::draw(texture.textureId(),QRectF(-1,-1,1,1),90);
     TextureTool::draw(QImage(":image.png"),QRectF(0,0,1,1),0);
+    TextTool::draw("hello",QRectF(0,-1,1,1));
 }
-

@@ -10,11 +10,13 @@ CONFIG += c++11
 
 SOURCES += \
     TestWidget.cpp \
+    TextTool.cpp \
     TextureTool.cpp \
     main.cpp
 
 HEADERS += \
     TestWidget.h \
+    TextTool.h \
     TextureTool.h
 
 # Default rules for deployment.
