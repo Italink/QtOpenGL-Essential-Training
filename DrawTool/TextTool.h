@@ -14,7 +14,7 @@ private:
     TextTool();
 public:
     static void setup(QOpenGLWidget* widget);
-    static void draw(QString text, QRectF geomtry=QRectF(-1,-1,2,2), float rotation=0, QFont font=QFont(), QColor fontColor=Qt::red);
+    static void draw(QString text, QFont font=QFont(), QColor fontColor=Qt::red, QRectF geomtry=QRectF(-1,-1,2,2), float rotation=0);
 private:
 };
 

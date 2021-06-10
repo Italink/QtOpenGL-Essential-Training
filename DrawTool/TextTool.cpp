@@ -13,7 +13,7 @@ void TextTool::setup(QOpenGLWidget *widget)
     TextureTool::setup(widget);
 }
 
-void TextTool::draw(QString text, QRectF geomtry, float rotation, QFont font, QColor fontColor)
+void TextTool::draw(QString text, QFont font, QColor fontColor, QRectF geomtry, float rotation)
 {
     QFontMetrics fontMetrics(font);                     //Qt中用来测量字体尺寸的
     QRect bounding=fontMetrics.boundingRect(text);      //获取到字符串的外包矩形
