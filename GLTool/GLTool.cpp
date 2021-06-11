@@ -3,28 +3,33 @@
 #include <QtOpenGLExtensions/QOpenGLExtensions>
 #include <QtOpenGLExtensions/QtOpenGLExtensions>
 namespace GLTool {
-    TextureTool* textureTool=nullptr;
+TextureTool* textureTool=nullptr;
+
+void drawTexture(const QOpenGLTexture &texture, QRectF geomtry, float rotation)
+{
+    drawTexture(texture.textureId(),geomtry, rotation);
 }
-GLFilter *GLTool::createFilter(const QByteArray &code)
+
+GLFilter *createFilter(const QByteArray &code)
 {
     return new GLFilter(code);
 }
 
-void GLTool::drawTexture(GLuint textureId, QRectF geomtry, float rotation)
+void drawTexture(GLuint textureId, QRectF geomtry, float rotation)
 {
     if(textureTool==nullptr)
         textureTool=new TextureTool();
     textureTool->drawTexture(textureId,geomtry,rotation);
 }
 
-void GLTool::drawImage(QImage image, QRectF geomtry, float rotation)
+void drawImage(QImage image, QRectF geomtry, float rotation)
 {
     if(textureTool==nullptr)
         textureTool=new TextureTool();
     textureTool->drawImage(image,geomtry,rotation);
 }
 
-QImage GLTool::createTextImgae(QString text, QFont font, QColor fontColor)
+QImage createTextImgae(QString text, QFont font, QColor fontColor)
 {
     QFontMetrics fontMetrics(font);                     //Qt中用来测量字体尺寸的
     QRect bounding=fontMetrics.boundingRect(text);      //获取到字符串的外包矩形
@@ -39,9 +44,13 @@ QImage GLTool::createTextImgae(QString text, QFont font, QColor fontColor)
     return image;
 }
 
-void GLTool::drawText(QString text, QFont font, QColor fontColor, QRectF geomtry, float rotation)
+void drawText(QString text, QFont font, QColor fontColor, QRectF geomtry, float rotation)
 {
     if(textureTool==nullptr)
         textureTool=new TextureTool();
     textureTool->drawImage(createTextImgae(text,font,fontColor),geomtry,rotation);
+}
+
+
+
 }
