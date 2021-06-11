@@ -16,14 +16,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    ../DrawTool/TextTool.cpp \
-    ../DrawTool/TextureTool.cpp \
+    ../GLTool/GLTool.cpp \
+    ../GLTool/TextureTool.cpp \
     main.cpp \
     widget.cpp
 
 HEADERS += \
-    ../DrawTool/TextTool.h \
-    ../DrawTool/TextureTool.h \
+    ../GLTool/GLTool.h \
+    ../GLTool/TextureTool.h \
     widget.h
 
 # Default rules for deployment.

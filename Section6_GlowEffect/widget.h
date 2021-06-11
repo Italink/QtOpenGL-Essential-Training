@@ -19,11 +19,10 @@ protected:
     virtual void initializeGL() override;
     virtual void paintGL() override;
     virtual void resizeGL(int w, int h) override;
-    void flushTexture();
 private:
     QOpenGLTexture texture;
     QTimer timer;
+    QOpenGLFramebufferObject* fbo;
 };
-
 
 #endif // WIDGET_H

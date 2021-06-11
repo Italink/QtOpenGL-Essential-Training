@@ -1,7 +1,7 @@
 #include "widget.h"
 #include <QPainter>
 #include <QTime>
-#include "../DrawTool/TextTool.h"
+#include "../GLTool/glTool.h"
 Widget::Widget(QWidget *parent)
     : QOpenGLWidget(parent)
     , texture(QOpenGLTexture::Target2D)
@@ -21,7 +21,6 @@ void Widget::initializeGL()
     initializeOpenGLFunctions();
     glClearColor(0,0,0,0);
     glClear(GL_COLOR_BUFFER_BIT);
-    TextTool::setup(this);
 }
 
 void Widget::paintGL()
@@ -33,8 +32,7 @@ void Widget::paintGL()
     QRect viewport(0,0,bounding.width(),bounding.height());                       //将OpenGL的视口调整为文字区域，且在屏幕中心
     viewport.moveCenter(rect().center());
     glViewport(viewport.x(),viewport.y(),viewport.width(),viewport.height());
-    TextTool::draw(text,font,QColor(50,100,200));                                   //绘制纹理，填充整个视口（viewport）
-
+    GLTool::drawText(text,font,QColor(50,100,200));                             //绘制纹理，填充整个视口（viewport）
 }
 
 void Widget::resizeGL(int w, int h)
