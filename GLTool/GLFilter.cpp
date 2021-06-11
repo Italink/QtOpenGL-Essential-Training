@@ -58,14 +58,17 @@ void GLFilter::runFilter(QRect geomtry)
     if(fbo!=nullptr&&fbo->size()!=geomtry.size())
         delete fbo;
 
-    GLuint prevFbo = 0;
+    GLuint prevFbo = 0;                                                     //获取当前绑定的FBO
     func->glGetIntegerv(GL_FRAMEBUFFER_BINDING, (GLint *) &prevFbo);
-    fbo=new QOpenGLFramebufferObject(geomtry.width(),geomtry.height());
+
+    fbo=new QOpenGLFramebufferObject(geomtry.width(),geomtry.height());     //由于Qt创建FBO的同时会进行绑定
     QOpenGLFramebufferObject::blitFramebuffer(fbo,QRect(0,0,fbo->width(),fbo->height()),nullptr,geomtry);
-    func->glBindFramebuffer(GL_FRAMEBUFFER,prevFbo);
+
+    func->glBindFramebuffer(GL_FRAMEBUFFER,prevFbo);                        //所以要在这里进行复原
 
     GLint preViewport[4] = {0};
-    func->glGetIntegerv(GL_VIEWPORT, preViewport);
+    func->glGetIntegerv(GL_VIEWPORT, preViewport);                          //获取当前的viewport数据
+
     func->glViewport(geomtry.x(),geomtry.y(),geomtry.width(),geomtry.height());
 
     func->glScissor(geomtry.x(),geomtry.y(),geomtry.width(),geomtry.height());        //清除指定区域

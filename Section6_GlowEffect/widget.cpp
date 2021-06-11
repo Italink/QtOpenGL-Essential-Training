@@ -2,7 +2,7 @@
 #include <QOpenGLFramebufferObject>
 #include <QPainter>
 #include <QTime>
-#include "../GLTool/GLTool.h"
+#include "GLTool.h"
 Widget::Widget(QWidget *parent)
     : QOpenGLWidget(parent)
     , texture(QOpenGLTexture::Target2D)

@@ -16,18 +16,21 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    ../GLTool/GLTool.cpp \
-    ../GLTool/TextureTool.cpp \
     main.cpp \
     widget.cpp
 
 HEADERS += \
-    ../GLTool/GLTool.h \
-    ../GLTool/TextureTool.h \
     widget.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../GLTool/release/ -lGLTool
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../GLTool/debug/ -lGLTool
+
+INCLUDEPATH += $$PWD/../GLTool
+DEPENDPATH += $$PWD/../GLTool
 
