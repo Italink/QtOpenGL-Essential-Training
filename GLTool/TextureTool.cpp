@@ -61,6 +61,7 @@ void TextureTool::drawImage(QImage image, QRectF geomtry, float rotation)
 {
     QOpenGLTexture texture(QOpenGLTexture::Target2D);
     texture.create();
+    texture.setMinMagFilters(QOpenGLTexture::Linear,QOpenGLTexture::Linear);
     texture.setData(image.mirrored());
     drawTexture(texture.textureId(),geomtry,rotation);
 }

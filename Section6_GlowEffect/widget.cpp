@@ -11,6 +11,9 @@ Widget::Widget(QWidget *parent)
                                   //定时调用重绘函数repaint(也可以调用update，只不过update不是直接响应)
     connect(&timer,&QTimer::timeout,this,static_cast<void (QWidget::*)()>(&QWidget::repaint));
     timer.start();
+    QSurfaceFormat format;
+    format.setSamples(50);
+    this->setFormat(format);
 }
 
 Widget::~Widget()
@@ -35,6 +38,7 @@ void Widget::initializeGL()
     initializeOpenGLFunctions();
     glClearColor(0,0,0,0);
     glClear(GL_COLOR_BUFFER_BIT);
+
     xBlur=new QOpenGLFramebufferObject(size());       //创建与窗口同等尺寸的帧缓存对象
     xFilter=GLTool::createFilter(
                 "#version 450 core\n"
@@ -84,10 +88,10 @@ void Widget::initializeGL()
                 "   vec4 blurColor = texture(blurTex,texCoord);\n"
                 "   vec3 mapped = vec3(1.0)-exp(-(blurColor.rgb*exposure));\n"
                 "   mapped = pow(mapped,1.0/vec3(gamma));\n"
-                "   FragColor=blurColor;\n"
+                "   FragColor=vec4(mix(mapped,rawColor.rgb*exposure,rawColor.a), blurColor.a);\n"
                 "}");
 
-    setBlurRadius(50);
+    setBlurRadius(25);
 }
 
 void Widget::paintGL()
@@ -100,7 +104,8 @@ void Widget::paintGL()
     viewport.moveCenter(rect().center());
     glViewport(viewport.x(),viewport.y(),viewport.width(),viewport.height());
     glClear(GL_COLOR_BUFFER_BIT);
-    GLTool::drawText(text,font,QColor(50,100,200));
+    GLTool::drawText(text,font,QColor(50,80,250));
+
     glViewport(0,0,width(),height());                                             //重置视口为窗口大小
     QOpenGLFramebufferObject::blitFramebuffer(xBlur,rect(),nullptr,rect());
     xFilter->getProgram().bind();
@@ -111,12 +116,12 @@ void Widget::paintGL()
     yFilter->getProgram().setUniformValueArray("guassWeight",guassWeight.data(),guassWeight.size(),1);
     yFilter->getProgram().setUniformValue("blurRadius",guassWeight.size());
     yFilter->runFilter(yBlur,rect(),xBlur,rect());
+
     glowFilter->getProgram().bind();
-    glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D,xBlur->texture());
     glowFilter->getProgram().setUniformValue("blurTex",1);
-    glowFilter->runFilter(nullptr,rect(),yBlur,rect());
-//    GLTool::drawTexture(xBlur->texture());
+    glowFilter->getProgram().setUniformValue("exposure",10.0f);
+    glowFilter->getProgram().setUniformValue("gamma",1.f);
+    glowFilter->runFilter(nullptr,rect(),yBlur,rect(),{xBlur->texture()});
     GLTool::drawTexture(yBlur->texture());
 }
 
@@ -125,6 +130,7 @@ void Widget::resizeGL(int w, int h)
     glViewport(0,0,w,h);
     delete xBlur;
     xBlur=new QOpenGLFramebufferObject(w,h);       //重新帧缓存对象
+
     delete yBlur;
     yBlur=new QOpenGLFramebufferObject(w,h);
 }

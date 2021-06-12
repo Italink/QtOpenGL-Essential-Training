@@ -10,7 +10,7 @@ class GLFilter
 {
 public:
     GLFilter(const QByteArray &filterCode);
-    void runFilter(QOpenGLFramebufferObject * readFBO, QRect readGeomtry, QOpenGLFramebufferObject * writeFBO, QRect drawGeomtry);
+    void runFilter(QOpenGLFramebufferObject * readFBO, QRect readGeomtry, QOpenGLFramebufferObject * writeFBO, QRect drawGeomtry,QVector<GLuint> extTextureIds={});
     void runFilter(QRect geomtry);
     QOpenGLShaderProgram &getProgram();
 

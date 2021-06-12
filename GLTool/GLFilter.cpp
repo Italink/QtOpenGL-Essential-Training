@@ -34,12 +34,11 @@ GLFilter::GLFilter(const QByteArray& filterCode)
     VBO.release();
 }
 
-void GLFilter::runFilter(QOpenGLFramebufferObject *readFBO, QRect readGeomtry, QOpenGLFramebufferObject *writeFBO, QRect drawGeomtry)
+void GLFilter::runFilter(QOpenGLFramebufferObject *readFBO, QRect readGeomtry, QOpenGLFramebufferObject *writeFBO, QRect drawGeomtry, QVector<GLuint> extTextureIds)
 {
     QOpenGLFunctions* func=QOpenGLContext::currentContext()->functions();
     if(fbo!=nullptr&&fbo->size()!=readGeomtry.size())
         delete fbo;
-
     fbo=new QOpenGLFramebufferObject(readGeomtry.width(),readGeomtry.height());
     QOpenGLFramebufferObject::blitFramebuffer(fbo,QRect(0,0,fbo->width(),fbo->height()),readFBO,readGeomtry);
     if(writeFBO!=nullptr)
@@ -47,9 +46,12 @@ void GLFilter::runFilter(QOpenGLFramebufferObject *readFBO, QRect readGeomtry, Q
     program.bind();
     func->glActiveTexture(GL_TEXTURE0);
     func->glBindTexture(GL_TEXTURE_2D,fbo->texture());
+    for(int i=0;i<extTextureIds.size();i++){
+        func->glActiveTexture(GL_TEXTURE0+i+1);
+        func->glBindTexture(GL_TEXTURE_2D,extTextureIds[i]);
+    }
     QOpenGLVertexArrayObject::Binder binder(&VAO);
     func->glDrawArrays(GL_TRIANGLE_STRIP,0,4);
-
     if(writeFBO!=nullptr)
         writeFBO->release();
      program.release();

@@ -36,7 +36,7 @@ QImage createTextImgae(QString text, QFont font, QColor fontColor)
     QImage image(bounding.size(),QImage::Format_ARGB32);
     image.fill(Qt::transparent);                        //使用透明色填充Image
     QPainter painter(&image);
-    painter.setRenderHint(QPainter::TextAntialiasing);  //开启抗锯齿
+    painter.setRenderHints(QPainter::TextAntialiasing|QPainter::Antialiasing);  //开启抗锯齿
     painter.setFont(font);
     painter.setPen(fontColor);
     painter.drawText(QRect(0,0,image.width(),image.height()),Qt::AlignCenter,text);
