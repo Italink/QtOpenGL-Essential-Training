@@ -42,14 +42,17 @@ void GLFilter::runFilter(QOpenGLFramebufferObject *readFBO, QRect readGeomtry, Q
 
     fbo=new QOpenGLFramebufferObject(readGeomtry.width(),readGeomtry.height());
     QOpenGLFramebufferObject::blitFramebuffer(fbo,QRect(0,0,fbo->width(),fbo->height()),readFBO,readGeomtry);
-    writeFBO->bind();
+    if(writeFBO!=nullptr)
+        writeFBO->bind();
+    program.bind();
     func->glActiveTexture(GL_TEXTURE0);
     func->glBindTexture(GL_TEXTURE_2D,fbo->texture());
-    program.bind();
     QOpenGLVertexArrayObject::Binder binder(&VAO);
     func->glDrawArrays(GL_TRIANGLE_STRIP,0,4);
-    program.release();
-    writeFBO->release();
+
+    if(writeFBO!=nullptr)
+        writeFBO->release();
+     program.release();
 }
 
 void GLFilter::runFilter(QRect geomtry)
@@ -75,13 +78,18 @@ void GLFilter::runFilter(QRect geomtry)
     func->glEnable(GL_SCISSOR_TEST);
     func->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     func->glDisable(GL_SCISSOR_TEST);
-
+    program.bind();
     func->glActiveTexture(GL_TEXTURE0);
     func->glBindTexture(GL_TEXTURE_2D,fbo->texture());
-    program.bind();
+
     QOpenGLVertexArrayObject::Binder binder(&VAO);
     func->glDrawArrays(GL_TRIANGLE_STRIP,0,4);
     program.release();
     func->glViewport(preViewport[0],preViewport[1],preViewport[2],preViewport[3]);
+}
+
+ QOpenGLShaderProgram &GLFilter::getProgram()
+{
+    return program;
 }
 

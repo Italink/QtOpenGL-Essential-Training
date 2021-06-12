@@ -12,6 +12,8 @@ public:
     GLFilter(const QByteArray &filterCode);
     void runFilter(QOpenGLFramebufferObject * readFBO, QRect readGeomtry, QOpenGLFramebufferObject * writeFBO, QRect drawGeomtry);
     void runFilter(QRect geomtry);
+    QOpenGLShaderProgram &getProgram();
+
 private:
     QOpenGLVertexArrayObject VAO;
     QOpenGLBuffer VBO;
