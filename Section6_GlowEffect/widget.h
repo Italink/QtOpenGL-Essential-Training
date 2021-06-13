@@ -26,8 +26,7 @@ private:
     QTimer timer;
     QOpenGLFramebufferObject* xBlur;
     QOpenGLFramebufferObject* yBlur;
-    GLFilter* xFilter;
-    GLFilter* yFilter;
+    GLFilter* blurFilter;
     GLFilter* glowFilter;
 
     QVector<float> guassWeight;
