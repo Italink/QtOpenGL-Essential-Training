@@ -12,12 +12,13 @@ class GLFilter
 public:
     GLFilter(const QByteArray &filterCode);
     template<typename  ShaderProgramFunction=std::function<void(QOpenGLShaderProgram&)>>
-    void runFilter(QOpenGLFramebufferObject * readFBO, QRect readGeomtry, QOpenGLFramebufferObject * writeFBO, QRect drawGeomtry,ShaderProgramFunction function=[](QOpenGLShaderProgram& program){})
+    void runFilter(QOpenGLFramebufferObject * readFBO, QRect readGeomtry, QOpenGLFramebufferObject * writeFBO, QRect drawGeomtry,ShaderProgramFunction function=[](QOpenGLShaderProgram&){})
     {
         QOpenGLFunctions* func=QOpenGLContext::currentContext()->functions();
         if(fbo!=nullptr&&fbo->size()!=readGeomtry.size())
             delete fbo;
-        fbo=new QOpenGLFramebufferObject(readGeomtry.width(),readGeomtry.height());
+        if(fbo==nullptr)
+            fbo=new QOpenGLFramebufferObject(readGeomtry.width(),readGeomtry.height());
         QOpenGLFramebufferObject::blitFramebuffer(fbo,QRect(0,0,fbo->width(),fbo->height()),readFBO,readGeomtry);
         if(writeFBO!=nullptr)
             writeFBO->bind();
@@ -34,7 +35,7 @@ public:
     }
 
     template<typename  ShaderProgramFunction=std::function<void(QOpenGLShaderProgram&)>>
-    void runFilter(QRect geomtry,ShaderProgramFunction function=[](QOpenGLShaderProgram& program){})
+    void runFilter(QRect geomtry,ShaderProgramFunction function=[](QOpenGLShaderProgram&){})
     {
         QOpenGLFunctions* func=QOpenGLContext::currentContext()->functions();
         if(fbo!=nullptr&&fbo->size()!=geomtry.size())
@@ -42,8 +43,8 @@ public:
 
         GLuint prevFbo = 0;                                                     //获取当前绑定的FBO
         func->glGetIntegerv(GL_FRAMEBUFFER_BINDING, (GLint *) &prevFbo);
-
-        fbo=new QOpenGLFramebufferObject(geomtry.width(),geomtry.height());     //由于Qt创建FBO的同时会进行绑定
+        if(fbo==nullptr)
+            fbo=new QOpenGLFramebufferObject(geomtry.width(),geomtry.height());     //由于Qt创建FBO的同时会进行绑定
         QOpenGLFramebufferObject::blitFramebuffer(fbo,QRect(0,0,fbo->width(),fbo->height()),nullptr,geomtry);
 
         func->glBindFramebuffer(GL_FRAMEBUFFER,prevFbo);                        //所以要在这里进行复原
@@ -65,11 +66,11 @@ public:
         function(program);
 
         QOpenGLVertexArrayObject::Binder binder(&VAO);
+
         func->glDrawArrays(GL_TRIANGLE_STRIP,0,4);
         program.release();
         func->glViewport(preViewport[0],preViewport[1],preViewport[2],preViewport[3]);
     }
-
 private:
     QOpenGLVertexArrayObject VAO;
     QOpenGLBuffer VBO;

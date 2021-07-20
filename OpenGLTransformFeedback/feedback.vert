@@ -1,7 +1,11 @@
-#version 330 core
-attribute float inValue;
-out float outValue;
+#version 400 core
+layout(location = 0) in float inValue;
+out OUT{
+    float value;
+}vs_out;
+
 void main(void)
 {
-    outValue=inValue+1;
+   vs_out.value=inValue;
+
 }

@@ -22,13 +22,11 @@ protected:
     virtual void paintGL() override;
     virtual void resizeGL(int w, int h) override;
 private:
-    QOpenGLTexture texture;
     QTimer timer;
-    QOpenGLFramebufferObject* xBlur;
-    QOpenGLFramebufferObject* yBlur;
+    QOpenGLFramebufferObject* xBlurBuffer;
+    QOpenGLFramebufferObject* yBlurBuffer;
     GLFilter* blurFilter;
     GLFilter* glowFilter;
-
     QVector<float> guassWeight;
 };
 

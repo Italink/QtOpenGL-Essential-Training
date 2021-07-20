@@ -30,18 +30,19 @@ void Widget::initializeGL()
     VBO.allocate(vertices,sizeof (vertices));
 
     shaderProgram.create();
-
     shaderProgram.addShaderFromSourceFile(QOpenGLShader::Vertex,":/feedback.vert");
+
+    shaderProgram.addShaderFromSourceFile(QOpenGLShader::Geometry,":/feedback.geom");
+
     const char* var[]={"outValue"};
+
     glTransformFeedbackVaryings(shaderProgram.programId(),1,var,GL_INTERLEAVED_ATTRIBS);
     shaderProgram.link();
     shaderProgram.enableAttributeArray(0);
     shaderProgram.setAttributeBuffer(0,GL_FLOAT,0,1);       //将VBO和EBO的id，以及解析格式存储到VAO中
-
     VBOBuffer.create();
     VBOBuffer.bind();
     VBOBuffer.allocate(sizeof (vertices));
-
     VAO.release();
     VBO.release();
     VBOBuffer.release();
@@ -49,13 +50,12 @@ void Widget::initializeGL()
 
 void Widget::paintGL()
 {
-
     shaderProgram.bind();  
     QOpenGLVertexArrayObject::Binder bind(&VAO);
     glEnable(GL_RASTERIZER_DISCARD);
     glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER,0,VBOBuffer.bufferId());
     glBeginTransformFeedback(GL_POINTS);
-    glDrawArrays(GL_POINTS,0,12);
+    glDrawArrays(GL_POINTS,0,3);
     glEndTransformFeedback();
     glDisable(GL_RASTERIZER_DISCARD);
     VBOBuffer.bind();

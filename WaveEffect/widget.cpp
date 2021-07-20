@@ -83,6 +83,7 @@ void Widget::paintGL()
     renderProgram.setUniformValue("background",1);
     renderProgram.setUniformValue("screen_width",QVector2D(width(),height()));
     renderProgram.setUniformValue("depth",depth);
+    GL_RGBA
     glDrawArrays(GL_TRIANGLE_STRIP,0,4);
     runMousePoints();
 }

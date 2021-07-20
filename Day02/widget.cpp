@@ -1,5 +1,4 @@
 #include "widget.h"
-
 Widget::Widget(QWidget *parent)
     : QOpenGLWidget(parent)
     , VBO(QOpenGLBuffer::VertexBuffer)
@@ -16,6 +15,7 @@ void Widget::initializeGL()
 {
     initializeOpenGLFunctions();
     glClearColor(0.0f,0.5f,0.9f,1.0f);
+    GL_TEXTURE_2D
     glClear(GL_COLOR_BUFFER_BIT);
     VAO.create();
     VAO.bind();
