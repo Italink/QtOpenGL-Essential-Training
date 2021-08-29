@@ -99,7 +99,7 @@ void Widget::paintGL()
 
     QOpenGLFramebufferObject::blitFramebuffer(xBlurBuffer,rect(),nullptr,rect());
 
-    for(int i=0;i<5;i++){
+    for(int i=0;i<10;i++){
         blurFilter->runFilter(xBlurBuffer,rect(),yBlurBuffer,rect(),[this](QOpenGLShaderProgram& program){
             program.setUniformValue("horizontal",true);
             program.setUniformValueArray("guassWeight",guassWeight.data(),guassWeight.size(),1);

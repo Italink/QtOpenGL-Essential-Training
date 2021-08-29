@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>ParticleRender.vert</file>
+        <file>ParticleRender.frag</file>
+        <file>ParticleRunner.geom</file>
+        <file>ParticleRunner.vert</file>
+    </qresource>
+</RCC>
