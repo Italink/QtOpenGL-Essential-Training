@@ -1,0 +1,3 @@
+[submodule "IKEngine"]
+	path = IKEngine
+	url = https://github.com/Italink/IKEngine.git

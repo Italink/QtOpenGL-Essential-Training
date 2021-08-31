@@ -18,7 +18,9 @@ class Widget : public QOpenGLWidget, public QOpenGLExtraFunctions
 public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
-
+    int numOfPerFrame = 100;
+    float lifetime = 1;
+    double defaultSize=5;
     // QOpenGLWidget interface
 protected:
     virtual void initializeGL() override;
@@ -39,7 +41,6 @@ private:
         QVector4D color;
     };
 
-
     QOpenGLShaderProgram updateProgram;
     QOpenGLShaderProgram renderProgram;
     QOpenGLVertexArrayObject VAO;
@@ -49,8 +50,6 @@ private:
 
     GLuint particleQuery;
     GLuint currentNumOfParticles = 0;
-    int numOfPerFrame = 100;
-    float lifetime = 1;
     QTime timeOfLastFrame;
 };
 

@@ -78,7 +78,6 @@ void Widget::initializeGL()
 
     instanceVBO.release();
 
-
 }
 
 void Widget::paintGL()

@@ -7,6 +7,7 @@ const int MAX_PARTICLES_SIZE = 1000000;
 Widget::Widget(QWidget *parent)
     : QOpenGLWidget(parent)
 {
+    setMinimumSize(800,600);
     QTimer *timer=new QTimer(this);
     timer->setInterval(18);        //设置定时器刷新间隔
                                    //定时调用重绘函数repaint(也可以调用update，只不过update不是直接响应)
@@ -83,7 +84,7 @@ void Widget::createParticles()
         Particle particle;
         particle.position=QVector3D(0,0,0);
         particle.velocity=QVector3D((rand()%1000/1000.0-0.5)*0.1,0.1,(rand()%1000/1000.0-0.5)*0.1);
-        particle.size=3;
+        particle.size=defaultSize;
         particle.life=0;
         particle.color=QVector4D(1,1,1,1);
         createBuffer<<particle;
